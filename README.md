@@ -14,11 +14,14 @@ A boilerplate starter project for building a Java Spring Boot application with F
 5. [License](#license)
 
 ## Features
+- File Storage Service
 - File Upload
 - File Download
-- List Files
 - File Deletion
-- File Storage Service
+- File Metadata
+- List Files with Pagination
+- Swagger UI
+- Logging with Logback
 
 ## Getting Started
 
@@ -35,9 +38,14 @@ cd java-spring-file-storage
 ```
 
 2. Running with Maven
+
 ```bash
 mvn spring-boot:run
 ```
+
+3. Using Swagger UI
+
+Visit [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) to access the Swagger UI and try out the API endpoints.
 
 ## Usage
 
@@ -45,20 +53,41 @@ mvn spring-boot:run
 To upload a file, send a POST request to `/api/files/upload` with the file as a form-data:
 
 ```bash
-curl -X POST http://localhost:8080/api/files/upload \
-     -H "Authorization: B
-        -F "file=@/path/to/file"
+curl -X POST "http://localhost:8080/api/files/upload" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@/path/to/your/file.txt"
 ```
-
-> You can also try to upload a file using the Swagger UI by visiting `http://localhost:8080/swagger-ui.html`
 
 ### Download File
 
 To download a file, send a GET request to `/api/files/download/{fileId}`:
 
 ```bash
-curl -X GET http://localhost:8080/api/files/download/{fileId} \
-     -H "Authorization
+curl -X GET "http://localhost:8080/api/files/download/{fileId}" -o downloaded_file.txt
+```
+
+### Delete File
+
+To delete a file, send a DELETE request to `/api/files/delete/{fileId}`:
+
+```bash
+curl -X DELETE "http://localhost:8080/api/files/delete/{fileId}"
+```
+
+### List Files
+
+To list all files, send a GET request to `/api/files`:
+
+```bash
+curl -X GET "http://localhost:8080/api/files?page=0&size=10"
+```
+
+### Get File Metadata
+
+To get the metadata of a file, send a GET request to `/api/files/{fileId}`:
+
+```bash
+curl -X GET "http://localhost:8080/api/files/{fileId}"
 ```
 
 ## Contributing
