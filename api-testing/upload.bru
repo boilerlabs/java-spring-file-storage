@@ -10,12 +10,6 @@ post {
   auth: none
 }
 
-body:json {
-  {
-    "description": "Google HEhe"
-  }
-}
-
 body:multipart-form {
-  file: @file(/home/wesley/Downloads/google.jpg)
+  file: @file()
 }
