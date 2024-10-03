@@ -30,7 +30,7 @@ public class FileStorageService {
     private FileRepository fileRepository;
 
     public FileStorageService() {
-        this.fileStorageLocation = Paths.get("./uploads").toAbsolutePath().normalize();
+        this.fileStorageLocation = Paths.get("./storage").toAbsolutePath().normalize();
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (IOException e) {
