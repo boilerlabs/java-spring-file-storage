@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.boilerlabs.storage.model.File;
 import com.boilerlabs.storage.repository.FileRepository;
+import com.boilerlabs.storage.validation.FileValidator;
 
 @Service
 public class FileStorageService {
@@ -23,6 +24,9 @@ public class FileStorageService {
 
     @Autowired
     private FileRepository fileRepository;
+
+    @Autowired
+    private FileValidator fileValidator;
 
     public FileStorageService() {
         this.fileStorageLocation = Paths.get("./uploads").toAbsolutePath().normalize();
@@ -39,6 +43,8 @@ public class FileStorageService {
     }
 
     public String uploadFile(MultipartFile multipartFile) {
+        fileValidator.validate(multipartFile);
+
         try {
             // Get file metadata
             String description = normalizeFileName(multipartFile.getOriginalFilename());
