@@ -41,13 +41,13 @@ public class FileController {
         return ResponseEntity.ok(fileStorageService.uploadFile(file));
     }
 
-    @GetMapping("/download")
-    public ResponseEntity<byte[]> downloadFile(@RequestParam("id") UUID id) {
+    @GetMapping("/download/{id}")
+    public ResponseEntity<byte[]> downloadFile(@RequestParam UUID id) {
         return ResponseEntity.ok(fileStorageService.downloadFile(id));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteFile(@RequestParam("id") UUID id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteFile(@RequestParam UUID id) {
         return ResponseEntity.ok(fileStorageService.deleteFile(id));
     }
 
