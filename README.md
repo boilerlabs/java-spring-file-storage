@@ -22,6 +22,7 @@ A boilerplate starter project for building a Java Spring Boot application with F
 - List Files with Pagination
 - Swagger UI
 - Logging with Logback
+- Docker Compose for MySQL and Adminer
 
 ## Getting Started
 

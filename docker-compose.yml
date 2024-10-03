@@ -1,0 +1,21 @@
+services:
+  database:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    volumes:
+      - data:/var/lib/mysql
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - '8081:8080' 
+
+volumes:
+  data:
