@@ -8,7 +8,11 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.boilerlabs.storage.model.File;
@@ -25,9 +29,6 @@ public class FileStorageService {
     @Autowired
     private FileRepository fileRepository;
 
-    @Autowired
-    private FileValidator fileValidator;
-
     public FileStorageService() {
         this.fileStorageLocation = Paths.get("./uploads").toAbsolutePath().normalize();
         try {
@@ -37,13 +38,22 @@ public class FileStorageService {
         }
     }
 
-    public Iterable<File> listFiles() {
+    @Transactional(readOnly = true)
+    public Page<File> listFiles(int page, int size) {
         logger.info("Listing all files in repository");
-        return fileRepository.findAll();
+        Pageable pageable = PageRequest.of(page, size);
+        return fileRepository.findAll(pageable);
     }
 
+    @Transactional(readOnly = true)
+    public File getFile(UUID id) {
+        logger.info("Getting file with id: {}", id);
+        return fileRepository.findById(id).orElseThrow(() -> new RuntimeException("File not found"));
+    }
+
+    @Transactional
     public String uploadFile(MultipartFile multipartFile) {
-        fileValidator.validate(multipartFile);
+        FileValidator.validate(multipartFile);
 
         try {
             // Get file metadata
@@ -71,6 +81,7 @@ public class FileStorageService {
         }
     }
 
+    @Transactional
     public byte[] downloadFile(UUID id) {
         try {
             Path filePath = getFilePath(id);
@@ -82,6 +93,7 @@ public class FileStorageService {
         }
     }
 
+    @Transactional
     public String deleteFile(UUID id) {
         try {
             Path filePath = getFilePath(id);

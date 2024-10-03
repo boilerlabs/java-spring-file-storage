@@ -10,7 +10,7 @@ public class FileValidator {
             "image/webp", "image/svg+xml", "application/pdf"
     };
 
-    public void validate(MultipartFile file) {
+    public static void validate(MultipartFile file) {
         if (file.isEmpty()) {
             throw new RuntimeException("Cannot upload an empty file");
         }
@@ -25,7 +25,7 @@ public class FileValidator {
         }
     }
 
-    private boolean isSupportedContentType(String fileType) {
+    private static boolean isSupportedContentType(String fileType) {
         for (String supportedType : SUPPORTED_CONTENT_TYPES) {
             if (supportedType.equals(fileType)) {
                 return true;
