@@ -17,7 +17,7 @@ public class FileController {
     @Autowired
     private FileStorageService fileStorageService;
 
-    @PostMapping("/upload")
+    @PostMapping(path = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<String> uploadFile(
             @RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok(fileStorageService.storeFile(file));
