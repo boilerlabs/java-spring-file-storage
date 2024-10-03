@@ -1,0 +1,21 @@
+meta {
+  name: upload
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/api/files/upload
+  body: multipartForm
+  auth: none
+}
+
+body:json {
+  {
+    "description": "Google HEhe"
+  }
+}
+
+body:multipart-form {
+  file: @file(/home/wesley/Downloads/google.jpg)
+}
